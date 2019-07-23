@@ -20,11 +20,14 @@ void setup() {
   arrow = loadImage(dataPath("force_vert.png"));
   arrow.resize(20, 40);
   spring.resize(30, 60);
-  f1 = createFont("Times-Italic", 30, true); 
-  //f1 = loadFont("Serif-48.vlw");
-  //textFont(f1);
-  f2 = createFont("Times-Italic", 9, true); 
-  f3 = createFont("Times-Italic", 15, true); 
+  f1 = loadFont("TimesNewRomanPS-ItalicMT-30.vlw");
+  textFont(f1);
+  
+  f2 = loadFont("TimesNewRomanPS-ItalicMT-9.vlw");
+  textFont(f2);
+  
+  f3 = loadFont("TimesNewRomanPS-ItalicMT-15.vlw");
+  textFont(f3);
 }
 
 void fileSelected(File selection) {
