@@ -1,0 +1,562 @@
+#:kivy 1.0
+
+<PopupBox>:
+    pop_up_text: _pop_up_text
+    size_hint: .5, .5
+    auto_dismiss: True
+    title: 'Status'   
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            id: _pop_up_text
+            text: ''
+
+<Sim>:
+    id: sim
+    display: input
+
+    popup1: popup1.__self__
+    popup2: popup2.__self__
+    popup3: popup3.__self__
+    popup4: popup4.__self__
+    popup5: popup5.__self__
+    popup6: popup6.__self__
+
+
+
+    BoxLayout:
+        id: bl
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+        
+        ActionBar:
+            pos_hint: {'top': 1}
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    title: 'Auto Car'
+                    app_icon: './icon.JPG'
+                    with_previous: False
+
+                ActionOverflow:
+                ActionButton:
+                    text: 'About'
+                    on_release: root.popup6.open()
+        
+        Popup:
+            id: popup4
+            title: 'Simulating'
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+
+            Label:
+                text: 'Running Simulation'
+
+
+        Popup:
+            id: popup6
+            title: 'About'
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+            
+            BoxLayout:
+                orientation: 'vertical'
+                ActionBar:
+                    pos_hint: {'top': 1}
+                    ActionView:
+                        use_separator: True
+                        ActionPrevious:
+                            title: 'Auto Car'
+                            app_icon: './icon.JPG'
+                            with_previous: False
+
+                        ActionOverflow:
+                        ActionButton:
+                            text: 'Return'
+                            on_release: popup6.dismiss()
+
+                Label:
+                    text: '\n About: \n Contact: rajamani@umn.edu '
+
+        Popup:
+            id: popup5
+            title: "Additional Plots"
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding:10
+                spacing:10
+
+                Button:
+                    text: 'Plot Track'
+                    on_release: sim.plotxy('x_global', 'y_global')
+
+                Label:
+                    text: 'Select the tire'
+
+                GridLayout:
+                    rows: 2
+                    cols: 2
+
+                    ToggleButton:
+                        text: 'Left Front'
+                        group: 'tires'
+                        state: 'down'
+                        allow_no_selection: False
+
+                    ToggleButton:
+                        text: 'Right Front'
+                        group: 'tires'
+                        allow_no_selection: False
+
+                    ToggleButton:
+                        text: 'Left Rear'
+                        group: 'tires'
+                        allow_no_selection: False
+
+                    ToggleButton:
+                        text: 'Right Rear'
+                        group: 'tires'
+                        allow_no_selection: False
+
+                Label:
+                    text: 'Select the tire variable to plot'
+
+                GridLayout:
+                    rows: 2
+                    cols: 2
+
+                    ToggleButton:
+                        text: 'Ftire lat'
+                        allow_no_selection: False
+                        group: 'opt'
+                        state: 'down'
+
+                    ToggleButton:
+                        text: 'Ftire long'
+                        group: 'opt'
+                        allow_no_selection: False
+
+                    ToggleButton:
+                        text: 'Slip ratio'
+                        group: 'opt'
+                        allow_no_selection: False
+
+                    ToggleButton:
+                        text: 'Slip angle'
+                        group: 'opt'
+                        allow_no_selection: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Button:
+                        text: 'Plot'
+                        on_release: sim.plotTr()
+
+                    Button:
+                        text: 'Return'
+                        on_release: popup5.dismiss()
+
+        Popup:
+            id: popup3
+            title: "User-Defined Control Systems"
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+            
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 20
+                spacing: 10
+                    
+				Spinner:
+					id: crcontrol
+					text: 'Cruise Control'
+					values: ('No Cruise Control', 'Default Cruise Control', 'User-defined Cruise Control')
+
+				Spinner:
+					id: stcontrol
+					text: 'Steering control'
+					values: ('No Steering control', 'Default Closed-Loop Steering Control','Step Steering Input', 'Fish Hook Steering Input', 'User-defined Steering control')
+
+				Spinner:
+					id: stacontrol
+					text: 'Stability Control'
+					values: ('No Stability Control', 'Default Stability Control', 'User-defined Stability Control')
+
+                Button:
+                    text: 'Return'
+                    on_release: popup3.dismiss()
+
+
+        Popup:
+            id: popup1
+            title: "Vehicle Parameters"
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 0
+                spacing: 0
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Total vehicle mass'
+
+                    TextInput:
+                        text: '2205'
+                        id: vmparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Sprung mass'
+
+                    TextInput:
+                        text: '1800'
+                        id: msparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Unsprung mass'
+
+                    TextInput:
+                        text: '75'
+                        id: m_uparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Distance - Front tires to c.g.'
+
+                    TextInput:
+                        text: '1.318'
+                        id: lfparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Distance - Rear tires to c.g.'
+
+                    TextInput:
+                        text: '1.542'
+                        id: lrparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Track width'
+
+                    TextInput:
+                        text: '1.75'
+                        id: lwparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Height of c.g.'
+
+                    TextInput:
+                        text: '0.68'
+                        id: hsparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Roll center distance from c.g.'
+
+                    TextInput:
+                        text: '0.8'
+                        id: hrparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Effective tire radius'
+
+                    TextInput:
+                        text: '0.3543'
+                        id: reffparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Tire moment of inertia'
+
+                    TextInput:
+                        text: '0.8'
+                        id: iwheelparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'vehicle yaw moment of inertia'
+
+                    TextInput:
+                        text: '3000'
+                        id: izparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Ssuension stiffness'
+
+                    TextInput:
+                        text: '20000'
+                        id: ksparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Tire stiffness'
+
+                    TextInput:
+                        text: '200000'
+                        id: ktparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Suspension damping'
+
+                    TextInput:
+                        text: '3900'
+                        id: bsparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Aerodynamic drag coefficient'
+
+                    TextInput:
+                        text: '0.3693'
+                        id: caparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Acceleration due to gravity'
+
+                    TextInput:
+                        text: '9.81'
+                        id: gparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Front tire cornering stiffness'
+
+                    TextInput:
+                        text: '60000'
+                        id: cfparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Label: 
+                        text: 'Rear tire cornering stiffness'
+
+                    TextInput:
+                        text: '60000'
+                        id: crparam
+                        readonly: False
+
+                GridLayout:
+                    rows: 1
+                    cols: 2
+
+                    Button:
+                        text: 'Restore Defaults'
+                        on_release: vmparam.text = '2205'; msparam.text = '1800'; m_uparam.text = '75'; lfparam.text = '1.318'; lrparam.text = '1.542'; lwparam.text = '1.75'; hsparam.text = '0.68'; hrparam.text = '0.8'; reffparam.text = '0.3543'; iwheelparam.text = '0.8'; izparam.text = '3000'; ksparam.text = '20000'; ktparam.text = '200000'; bsparam.text = '3900'; caparam.text = '0.3693'; gparam.text = '9.81'; cfparam.text = '60000'; crparam.text = '60000'
+
+                    Button:
+                        text: 'Return'
+                        on_release: popup1.dismiss()
+
+        Popup:
+            id: popup2
+            title: "Road Parameters"
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+
+            GridLayout:
+                rows: 1
+                cols: 3
+                spacing: '8dp'
+
+                GridLayout:
+                    cols: 1
+                    spacing: '8dp'
+
+                    ToggleButton:
+                        text: 'Straight road only'
+                        group: 'g1'
+
+                    ToggleButton:
+                        text: 'Road curvature segments'
+                        group: 'g1'
+
+                    Button:
+                        text: 'Return'
+                        on_release: popup2.dismiss()
+
+                GridLayout:
+                    rows: 2
+
+                    Label:
+                        text: 'Longitudial Position'
+                        size_hint_y: None
+                        height: 60
+
+                    TextInput:
+                        id: lpos
+                        readonly: False
+
+                GridLayout:
+                    rows: 2
+
+                    Label:
+                        text: 'Road Curvature'
+                        size_hint_y: None
+                        height: 60
+
+                    TextInput:
+                        id: rcur
+                        readonly: False
+
+
+
+        GridLayout:
+            rows: 1
+            cols: 2
+
+            Button:
+                text: 'Vehicle Parameters'
+                on_release: root.popup1.open()
+
+            Button:
+                text: 'Road Parameters'
+                on_release: root.popup2.open()
+
+        
+        Button:
+            text: 'Show Animation'
+            font_size: 56
+            on_press: sim.runCode("")
+
+
+        GridLayout:
+            rows: 1
+            cols: 2
+
+            Button:
+                text: 'Simulate'
+                font_size: 56
+                on_press: sim.calculate(vmparam.text, msparam.text, m_uparam.text, lfparam.text, lrparam.text, lwparam.text, hsparam.text, hrparam.text, reffparam.text, iwheelparam.text, izparam.text, ksparam.text, ktparam.text, bsparam.text, caparam.text, gparam.text, cfparam.text, crparam.text,stcontrol.text, stacontrol.text, crcontrol.text)
+
+            Button:
+                text: 'User-Defined Control Systems'
+                on_press: root.popup3.open()
+
+
+        GridLayout:
+            rows: 1
+            cols: 3
+
+            GridLayout:
+                rows: 2
+                cols: 1
+
+                Label:
+                    text: 'x Axis'
+
+                Spinner:
+                    id: xspinner
+                    text: 'time'
+
+            GridLayout:
+                rows: 2
+                cols: 1
+
+                Label:
+                    text: 'y Axis'
+
+                Spinner:
+                    id: yspinner
+                    text: 'y_global'
+                    values: ('x_global', 'y_global', 'yaw angle', 'vehicle speed', 'lateral acceleration', 'lateral velocity', 'slip angle', 'yaw rate')
+
+            GridLayout:
+                rows: 2
+                cols: 1
+                
+                Button:
+                    text: 'Additional Plot'
+                    font_size: 15
+                    on_release: root.popup5.open()
+
+                Button:
+                    text: 'Plot Results'
+                    font_size: 15
+                    on_release: sim.plotxy(xspinner.text, yspinner.text)
+
